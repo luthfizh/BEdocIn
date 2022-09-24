@@ -2,6 +2,7 @@ import process from 'process';
 import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
+import usersRouter from './src/routes/usersRoute.js';
 
 import getenv from './src/helper/getenv.js';
 
@@ -20,9 +21,21 @@ mongoose
   });
 
 app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
   res.send('Express');
+});
+
+app.use('/users', usersRouter);
+
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  console.error(err.message, err.stack);
+  res.status(statusCode).json({ message: err.message });
+
+  return;
 });
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}...`));

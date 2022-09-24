@@ -1,27 +1,27 @@
-import mongoose from 'mongoose';
-import User from '../models/usersModel.js';
+import mongoose from "mongoose";
+import User from "../models/usersModel.js";
 
 export const findAllUser = async (req, res, next) => {
-    try {
-      const user = await User.find({});
-  
-      res.json(user);
-    } catch (err) {
-      next(err);
-    }
-  };
+  try {
+    const user = await User.find({});
 
-  export const findUserById = async (req, res, next) => {
-    try {
-      // code here
-      const id = mongoose.Types.ObjectId(req.params.id);
+    res.json(user);
+  } catch (err) {
+    next(err);
+  }
+};
 
-      const response = await User.findOne({ _id: id });
-      res.json({ response });
-    } catch (err) {
-      next(err);
-    }
-  };
+export const findUserById = async (req, res, next) => {
+  try {
+    // code here
+    const id = mongoose.Types.ObjectId(req.params.id);
+
+    const response = await User.findOne({ _id: id });
+    res.json({ response });
+  } catch (err) {
+    next(err);
+  }
+};
 
 export const createUser = async (req, res, next) => {
   try {
@@ -53,36 +53,48 @@ export const updateUserById = async (req, res, next) => {
 
   if (!req.body) {
     return res.status(400).send({
-      message: "Data to update can not be empty!"
+      message: "Data to update can not be empty!",
     });
   }
 
   const id = req.params.id;
 
-    User.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
-    .then(data => {
+  User.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
+    .then((data) => {
       if (!data) {
         res.status(404).send({
-          message: `Cannot update User with id=${id}. Maybe User was not found!`
+          message: `Cannot update User with id=${id}. Maybe User was not found!`,
         });
       } else res.send({ message: "Data User was updated successfully." });
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(500).send({
-        message: "Error updating User with id=" + id
+        message: "Error updating User with id=" + id,
       });
     });
-    // try {
-    //   const result = await User.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
-    //     if (!data) {
-    //       res.status(404).send({
-    //         message: `Cannot update User with id=${id}. Maybe User was not found!`
-    //       });
-    //     } else res.send({ message: "Data User was updated successfully." });
-    
-    // } catch (error) {
-    //   res.status(500).send({
-    //     message: "Error updating User with id=" + id
-    //   });
-    // }
+  // try {
+  //   const result = await User.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
+  //     if (!data) {
+  //       res.status(404).send({
+  //         message: `Cannot update User with id=${id}. Maybe User was not found!`
+  //       });
+  //     } else res.send({ message: "Data User was updated successfully." });
+
+  // } catch (error) {
+  //   res.status(500).send({
+  //     message: "Error updating User with id=" + id
+  //   });
+  // }
+};
+
+export const deleteUser = async (req, res, next) => {
+  try {
+    const response = await User.findByIdAndRemove(
+      { _id: req.params.id },
+      req.body
+    );
+    res.json({ response });
+  } catch (err) {
+    next(err);
+  }
 };

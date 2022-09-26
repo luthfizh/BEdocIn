@@ -7,5 +7,6 @@ router.post('/', Appointment.createAppointment);
 router.get("/", Appointment.findAllAppointment);
 router.get("/:id", Appointment.findAppointmentById);
 router.put("/:id", Appointment.updateAppointmentById);
+router.delete("/:id", Appointment.deleteAppointmentById);
 
 export default router;

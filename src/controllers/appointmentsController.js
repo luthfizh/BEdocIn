@@ -54,3 +54,19 @@ export const updateAppointmentById = async (req, res, next) => {
     next(err);
   }
 };
+
+export const deleteAppointmentById = async (req, res, next) => {
+  try {
+    const id = mongoose.Types.ObjectId(req.params.id);
+    const response = await Appointment.findByIdAndRemove({ _id: id });
+    if (!response) {
+      res
+        .status(404)
+        .send({ message: `Delete failed, appointment with id=${id} not found!` });
+    } else {
+      res.status(201).send({ message: "Appointment successfully deleted!" });
+    }
+  } catch (err) {
+    next(err);
+  }
+}

@@ -47,6 +47,7 @@ export const updateDoctorById = async (req, res, next) => {
         .send({ message: `Can't update, doctor with id=${id} not found!` });
     } else if (Object.keys(req.body).length === 0) {
       res.status(404).send({ message: "Can't update, update value is empty!" });
+    } else {
       res.status(201).send({ message: "Doctor successfully updated!" });
     }
   } catch (err) {

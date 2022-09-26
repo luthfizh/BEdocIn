@@ -20,7 +20,9 @@ export const createAppointment = async (req, res, next) => {
 
 export const findAllAppointment = async (req, res, next) => {
   try {
-    const appointment = await Appointment.find({});
+    const appointment = await Appointment.find({})
+    .populate({ path: "creator_id" , select: "id" })
+    .populate({ path: "receiver_id", select: "id"});
     res.json(appointment);
   } catch (err) {
     next(err);

@@ -17,3 +17,22 @@ export const createDoctor = async (req, res, next) => {
     next(err);
   }
 };
+
+export const findAllDoctor = async (req, res, next) => {
+  try {
+    const doctor = await Doctor.find({});
+    res.json(doctor);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const findDoctorById = async (req, res, next) => {
+  try {
+    const id = mongoose.Types.ObjectId(req.params.id);
+    const response = await Doctor.findById({ _id: id });
+    res.json({ response });
+  } catch (err) {
+    next(err);
+  }
+};

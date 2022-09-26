@@ -31,10 +31,6 @@ const userSchema = new mongoose.Schema({
         min: 6,
         max: 1024
     },
-    bio: {
-        type: String,
-        default: 'Hi, I am using Docin'
-    },
     address: {
         type: String,
         default: 'Yogyakarta, Indonesia'

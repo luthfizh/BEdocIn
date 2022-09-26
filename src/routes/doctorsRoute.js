@@ -7,5 +7,6 @@ router.post('/', Doctor.createDoctor);
 router.get("/", Doctor.findAllDoctor);
 router.get("/:id", Doctor.findDoctorById);
 router.put("/:id", Doctor.updateDoctorById);
+router.delete("/:id", Doctor.deleteDoctor);
 
 export default router;

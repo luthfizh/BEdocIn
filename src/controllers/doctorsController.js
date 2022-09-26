@@ -5,7 +5,7 @@ export const createDoctor = async (req, res, next) => {
   try {
     const doctor = new Doctor(req.body);
     const result = await doctor.save();
-    res.status(201).json(result);
+    res.status(201).send({ message: "Doctor successfully created!" });
   } catch (err) {
     if (["CastError", "ValidationError"].includes(err?.name)) {
       next({

@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
 import User from "../models/usersModel.js";
 
 export const findAllUser = async (req, res, next) => {
@@ -22,7 +23,14 @@ export const findUserById = async (req, res, next) => {
 
 export const createUser = async (req, res, next) => {
   try {
-    const user = new User(req.body);
+    const salt = await bcrypt.genSalt();
+    const encryptedPassword = await bcrypt.hash(req.body.password, salt);
+    const user = new User({email: req.body.email,
+      first_name: req.body.first_name,
+      last_name: req.body.last_name,
+      username: req.body.username,
+      email: req.body.email,
+      password: encryptedPassword});
     const result = await user.save();
     res.status(201).send({ message: "User successfully created!" });
   } catch (err) {

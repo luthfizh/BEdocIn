@@ -1,9 +1,20 @@
 import mongoose from 'mongoose';
+import bcrypt from "bcryptjs";
 import Doctor from '../models/doctorsModel.js';
 
 export const createDoctor = async (req, res, next) => {
   try {
-    const doctor = new Doctor(req.body);
+    const salt = await bcrypt.genSalt();
+    const encryptedPassword = await bcrypt.hash(req.body.password, salt);
+    const doctor = new Doctor({
+      name: req.body.name,
+      email: req.body.email,
+      speciality: req.body.speciality,
+      bio: req.body.bio,
+      address: req.body.address,
+      appointment_fee: req.body.appointment_fee,
+      password: encryptedPassword
+    });
     const result = await doctor.save();
     res.status(201).send({ message: "Doctor successfully created!" });
   } catch (err) {

@@ -1,6 +1,10 @@
 import mongoose from 'mongoose';
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import getenv from "../helper/getenv.js";
 import Doctor from '../models/doctorsModel.js';
+
+const JWT_SECRET = getenv("JWT_SECRET");
 
 export const createDoctor = async (req, res, next) => {
   try {
@@ -13,7 +17,7 @@ export const createDoctor = async (req, res, next) => {
       bio: req.body.bio,
       address: req.body.address,
       appointment_fee: req.body.appointment_fee,
-      password: encryptedPassword
+      password: encryptedPassword,
     });
     const result = await doctor.save();
     res.status(201).send({ message: "Doctor successfully created!" });
@@ -48,6 +52,40 @@ export const findDoctorById = async (req, res, next) => {
   }
 };
 
+export const loginDoctor = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const doctor = await Doctor.findOne({ email: email });
+    if (!doctor) {
+      return res.status(400).json({
+        errors: "Could not find this email!",
+        error_type: "email",
+      });
+    }
+
+    const isMatch = await bcrypt.compare(password, doctor.password);
+    if (!isMatch) {
+      return res
+        .status(400)
+        .json({ errors: "Invalid credentials!", error_type: "password" });
+    }
+
+    const token = jwt.sign({ id: doctor._id, email: doctor.email }, JWT_SECRET);
+    res.json({
+      token,
+      doctor: {
+        doctorId: doctor._id,
+        first_name: doctor.first_name,
+        last_name: doctor.last_name,
+        email: doctor.email,
+      },
+      expiresIn: "2h",
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const updateDoctorById = async (req, res, next) => {
   try {
     const id = mongoose.Types.ObjectId(req.params.id);
@@ -68,16 +106,13 @@ export const updateDoctorById = async (req, res, next) => {
 
 export const deleteDoctor = async (req, res, next) => {
   try {
-    const id = mongoose.Types.ObjectId(req.params.id);
-    const response = await Doctor.findByIdAndRemove({ _id: id });
+    const response = await Doctor.findByIdAndDelete(req.user);
     if (!response) {
-      res
-        .status(404)
-        .send({ message: `Delete failed, doctor with id=${id} not found!` });
-    } else {
-      res.status(201).send({ message: "Doctor successfully deleted!" });
-    }
-  } catch (err) {
+      res.status(404).send({ message: "Delete failed, doctor not found!" });
+    }else {
+    res.status(201).send({ message: "User successfully deleted!" });
+  }
+}catch (err) {
     next(err);
   }
 };

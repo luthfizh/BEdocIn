@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-import Appointment from '../models/appointmentsModel.js';
+import mongoose from "mongoose";
+import Appointment from "../models/appointmentsModel.js";
 
 export const createAppointment = async (req, res, next) => {
   try {
@@ -11,8 +11,8 @@ export const createAppointment = async (req, res, next) => {
       subject: req.body.subject,
       explanation: req.body.explanation,
       time: req.body.time,
-      appointment_fee: req.body.app_fee
-      });
+      appointment_fee: req.body.app_fee,
+    });
     const result = await appointment.save();
     res.status(201).send({ message: "Appointment successfully created!" });
   } catch (err) {
@@ -27,11 +27,25 @@ export const createAppointment = async (req, res, next) => {
   }
 };
 
+export const getUserRequest = async (req, res, next) => {
+  const { creator_id } = req.query;
+  try {
+    const appointments = await Appointment.find({
+      creator_id: creator_id,
+    })
+      .populate({ path: "creator_name", select: "-_id first_name last_name" })
+      .populate({ path: "receiver_name", select: "-_id name" });
+    res.status(200).json(appointments);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const findAllAppointment = async (req, res, next) => {
   try {
     const appointment = await Appointment.find({})
-    .populate({ path: "creator_name" , select: "-_id first_name last_name" })
-    .populate({ path: "receiver_name", select: "-_id name"});
+      .populate({ path: "creator_name", select: "-_id first_name last_name" })
+      .populate({ path: "receiver_name", select: "-_id name" });
     res.json(appointment);
   } catch (err) {
     next(err);
@@ -53,9 +67,9 @@ export const updateAppointmentById = async (req, res, next) => {
     const id = mongoose.Types.ObjectId(req.params.id);
     const response = await Appointment.findByIdAndUpdate({ _id: id }, req.body);
     if (!response) {
-      res
-        .status(404)
-        .send({ message: `Can't update, appointment with id=${id} not found!` });
+      res.status(404).send({
+        message: `Can't update, appointment with id=${id} not found!`,
+      });
     } else if (Object.keys(req.body).length === 0) {
       res.status(404).send({ message: "Can't update, update value is empty!" });
     } else {
@@ -71,13 +85,13 @@ export const deleteAppointmentById = async (req, res, next) => {
     const id = mongoose.Types.ObjectId(req.params.id);
     const response = await Appointment.findByIdAndRemove({ _id: id });
     if (!response) {
-      res
-        .status(404)
-        .send({ message: `Delete failed, appointment with id=${id} not found!` });
+      res.status(404).send({
+        message: `Delete failed, appointment with id=${id} not found!`,
+      });
     } else {
       res.status(201).send({ message: "Appointment successfully deleted!" });
     }
   } catch (err) {
     next(err);
   }
-}
+};

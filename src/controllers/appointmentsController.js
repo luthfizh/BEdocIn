@@ -3,8 +3,17 @@ import Appointment from '../models/appointmentsModel.js';
 
 export const createAppointment = async (req, res, next) => {
   try {
-    const appoinment = new Appointment(req.body);
-    const result = await appoinment.save();
+    const appointment = new Appointment({
+      creator_id: req.body.creator_id,
+      receiver_id: req.body.receiver_id,
+      creator_name: req.body.creator_name,
+      receiver_name: req.body.receiver_name,
+      subject: req.body.subject,
+      explanation: req.body.explanation,
+      time: req.body.time,
+      appointment_fee: req.body.app_fee
+      });
+    const result = await appointment.save();
     res.status(201).send({ message: "Appointment successfully created!" });
   } catch (err) {
     if (["CastError", "ValidationError"].includes(err?.name)) {

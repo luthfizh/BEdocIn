@@ -1,8 +1,8 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import getenv from "../helper/getenv.js";
-import Doctor from '../models/doctorsModel.js';
+import Doctor from "../models/doctorsModel.js";
 
 const JWT_SECRET = getenv("JWT_SECRET");
 
@@ -109,10 +109,10 @@ export const deleteDoctor = async (req, res, next) => {
     const response = await Doctor.findByIdAndDelete(req.user);
     if (!response) {
       res.status(404).send({ message: "Delete failed, doctor not found!" });
-    }else {
-    res.status(201).send({ message: "User successfully deleted!" });
-  }
-}catch (err) {
+    } else {
+      res.status(201).send({ message: "User successfully deleted!" });
+    }
+  } catch (err) {
     next(err);
   }
 };

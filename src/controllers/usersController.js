@@ -5,6 +5,7 @@ import getenv from "../helper/getenv.js";
 import User from "../models/usersModel.js";
 
 const JWT_SECRET = getenv("JWT_SECRET");
+const SALT = getenv("SALT");
 
 export const findAllUser = async (req, res, next) => {
   try {
@@ -15,11 +16,27 @@ export const findAllUser = async (req, res, next) => {
   }
 };
 
-export const findUserById = async (req, res, next) => {
+// export const findUserById = async (req, res, next) => {
+//   try {
+//     const id = mongoose.Types.ObjectId(req.params.id);
+//     const response = await User.findById({ _id: id });
+//     res.json({ response });
+//   } catch (err) {
+//     next(err);
+//   }
+// };
+
+export const getCurrentUser = async (req, res, next) => {
   try {
-    const id = mongoose.Types.ObjectId(req.params.id);
-    const response = await User.findById({ _id: id });
-    res.json({ response });
+    const user = await User.findById(req.user);
+    res.json({
+      id: user._id,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      username: user.username,
+      email: user.email,
+      address: user.address,
+    });
   } catch (err) {
     next(err);
   }
@@ -27,7 +44,7 @@ export const findUserById = async (req, res, next) => {
 
 export const createUser = async (req, res, next) => {
   try {
-    const salt = await bcrypt.genSalt();
+    const salt = await bcrypt.genSalt(Number(SALT));
     const encryptedPassword = await bcrypt.hash(req.body.password, salt);
     const user = new User({
       first_name: req.body.first_name,

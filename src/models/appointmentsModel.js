@@ -12,12 +12,12 @@ const appointmentSchema = new mongoose.Schema({
         required: true,
     },
     creator_name: {
-        type: String,
-        required: true,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
     },
     receiver_name: {
-        type: String,
-        required: true,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Doctor',
     },
     subject: {
         type: String,

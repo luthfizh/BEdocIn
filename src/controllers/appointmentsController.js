@@ -6,8 +6,8 @@ export const createAppointment = async (req, res, next) => {
     const appointment = new Appointment({
       creator_id: req.body.creator_id,
       receiver_id: req.body.receiver_id,
-      creator_name: req.body.creator_name,
-      receiver_name: req.body.receiver_name,
+      creator_name: req.body.creator_id,
+      receiver_name: req.body.receiver_id,
       subject: req.body.subject,
       explanation: req.body.explanation,
       time: req.body.time,
@@ -30,8 +30,8 @@ export const createAppointment = async (req, res, next) => {
 export const findAllAppointment = async (req, res, next) => {
   try {
     const appointment = await Appointment.find({})
-    .populate({ path: "creator_id" , select: "id" })
-    .populate({ path: "receiver_id", select: "id"});
+    .populate({ path: "creator_name" , select: "-_id first_name last_name" })
+    .populate({ path: "receiver_name", select: "-_id name"});
     res.json(appointment);
   } catch (err) {
     next(err);

@@ -5,10 +5,11 @@ import getenv from "../helper/getenv.js";
 import Doctor from "../models/doctorsModel.js";
 
 const JWT_SECRET = getenv("JWT_SECRET");
+const SALT = getenv("SALT");
 
 export const createDoctor = async (req, res, next) => {
   try {
-    const salt = await bcrypt.genSalt();
+    const salt = await bcrypt.genSalt(Number(SALT));
     const encryptedPassword = await bcrypt.hash(req.body.password, salt);
     const doctor = new Doctor({
       name: req.body.name,
@@ -42,11 +43,28 @@ export const findAllDoctor = async (req, res, next) => {
   }
 };
 
-export const findDoctorById = async (req, res, next) => {
+// export const findDoctorById = async (req, res, next) => {
+//   try {
+//     const id = mongoose.Types.ObjectId(req.params.id);
+//     const response = await Doctor.findById({ _id: id });
+//     res.json({ response });
+//   } catch (err) {
+//     next(err);
+//   }
+// };
+
+export const getCurrentDoctor = async (req, res, next) => {
   try {
-    const id = mongoose.Types.ObjectId(req.params.id);
-    const response = await Doctor.findById({ _id: id });
-    res.json({ response });
+    const doctor = await Doctor.findById(req.user);
+    res.json({
+      id: doctor._id,
+      name: doctor.name,
+      email: doctor.email,
+      speciality: doctor.speciality,
+      bio: doctor.bio,
+      address: doctor.address,
+      appointment_fee: doctor.appointment_fee,
+    });
   } catch (err) {
     next(err);
   }
@@ -110,7 +128,7 @@ export const deleteDoctor = async (req, res, next) => {
     if (!response) {
       res.status(404).send({ message: "Delete failed, doctor not found!" });
     } else {
-      res.status(201).send({ message: "User successfully deleted!" });
+      res.status(201).send({ message: "Doctor successfully deleted!" });
     }
   } catch (err) {
     next(err);

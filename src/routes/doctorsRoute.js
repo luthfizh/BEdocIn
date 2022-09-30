@@ -6,7 +6,8 @@ const router = express.Router();
 
 router.post('/signup', Doctor.createDoctor);
 router.get("/", Doctor.findAllDoctor);
-router.get("/:id", Doctor.findDoctorById);
+// router.get("/:id", Doctor.findDoctorById);
+router.get("/current-doctor", auth.auth, Doctor.getCurrentDoctor);
 router.post("/login", Doctor.loginDoctor);
 router.put("/:id", auth.auth, Doctor.updateDoctorById);
 router.delete("/delete", auth.auth, Doctor.deleteDoctor);

@@ -4,9 +4,9 @@ import Appointment from "../models/appointmentsModel.js";
 export const createAppointment = async (req, res, next) => {
   try {
     const appointment = new Appointment({
-      creator_id: req.body.creator_id,
+      creator_id: req.user,
       receiver_id: req.body.receiver_id,
-      creator_name: req.body.creator_id,
+      creator_name: req.user,
       receiver_name: req.body.receiver_id,
       subject: req.body.subject,
       explanation: req.body.explanation,

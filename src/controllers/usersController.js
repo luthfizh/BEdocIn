@@ -16,16 +16,6 @@ export const findAllUser = async (req, res, next) => {
   }
 };
 
-// export const findUserById = async (req, res, next) => {
-//   try {
-//     const id = mongoose.Types.ObjectId(req.params.id);
-//     const response = await User.findById({ _id: id });
-//     res.json({ response });
-//   } catch (err) {
-//     next(err);
-//   }
-// };
-
 export const getCurrentUser = async (req, res, next) => {
   try {
     const user = await User.findById(req.user);

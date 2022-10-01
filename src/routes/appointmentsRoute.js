@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.post("/create-request", auth.auth, Appointment.createAppointment);
 router.get("/user-request", auth.auth, Appointment.getUserRequest);
+router.get("/doctor-request", auth.auth, Appointment.getDoctorRequest);
 router.get("/", Appointment.findAllAppointment);
 router.get("/:id", Appointment.findAppointmentById);
 router.put("/:id", Appointment.updateAppointmentById);

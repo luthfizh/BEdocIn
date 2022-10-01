@@ -41,6 +41,20 @@ export const getUserRequest = async (req, res, next) => {
   }
 };
 
+export const getDoctorRequest = async (req, res, next) => {
+  const { receiver_id } = req.query;
+  try {
+    const appointments = await Appointment.find({
+      receiver_id: receiver_id,
+    })
+      .populate({ path: "creator_name", select: "-_id first_name last_name" })
+      .populate({ path: "receiver_name", select: "-_id name" });
+    res.status(200).json(appointments);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const findAllAppointment = async (req, res, next) => {
   try {
     const appointment = await Appointment.find({})

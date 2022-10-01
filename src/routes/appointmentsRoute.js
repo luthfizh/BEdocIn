@@ -16,6 +16,7 @@ router.put(
   Appointment.updatePaymentStatus
 );
 router.put("/accept/:id", auth.auth, Appointment.acceptRequestDoctor);
+router.put("/reject/:id", auth.auth, Appointment.rejectRequestDoctor);
 router.delete("/:id", Appointment.deleteAppointmentById);
 
 export default router;

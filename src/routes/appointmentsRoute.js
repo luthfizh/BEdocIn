@@ -10,7 +10,12 @@ router.get("/doctor-request", auth.auth, Appointment.getDoctorRequest);
 router.get("/", Appointment.findAllAppointment);
 router.get("/:id", Appointment.findAppointmentById);
 router.put("/:id", Appointment.updateAppointmentById);
-router.put("/update-payment-status/:id", auth.auth, Appointment.updatePaymentStatus);
+router.put(
+  "/update-payment-status/:id",
+  auth.auth,
+  Appointment.updatePaymentStatus
+);
+router.put("/accept/:id", auth.auth, Appointment.acceptRequestDoctor);
 router.delete("/:id", Appointment.deleteAppointmentById);
 
 export default router;

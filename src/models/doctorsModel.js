@@ -33,7 +33,7 @@ const doctorSchema = new mongoose.Schema({
     type: String,
     default: "Yogyakarta, Indonesia",
   },
-  appointment_fee: {
+  appointmentFee: {
     type: Number,
     default: 0,
   },

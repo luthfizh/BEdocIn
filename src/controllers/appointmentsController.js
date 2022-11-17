@@ -33,7 +33,7 @@ export const getUserRequest = async (req, res, next) => {
     const appointments = await Appointment.find({
       creator_id: creator_id,
     })
-      .populate({ path: "creator_name", select: "-_id first_name last_name" })
+      .populate({ path: "creator_name", select: "-_id firstName lastName" })
       .populate({ path: "receiver_name", select: "-_id name" });
     res.status(200).json(appointments);
   } catch (err) {
@@ -47,7 +47,7 @@ export const getDoctorRequest = async (req, res, next) => {
     const appointments = await Appointment.find({
       receiver_id: receiver_id,
     })
-      .populate({ path: "creator_name", select: "-_id first_name last_name" })
+      .populate({ path: "creator_name", select: "-_id firstName lastName" })
       .populate({ path: "receiver_name", select: "-_id name" });
     res.status(200).json(appointments);
   } catch (err) {
@@ -58,7 +58,7 @@ export const getDoctorRequest = async (req, res, next) => {
 export const findAllAppointment = async (req, res, next) => {
   try {
     const appointment = await Appointment.find({})
-      .populate({ path: "creator_name", select: "-_id first_name last_name" })
+      .populate({ path: "creator_name", select: "-_id firstName lastName" })
       .populate({ path: "receiver_name", select: "-_id name" });
     res.json(appointment);
   } catch (err) {

@@ -83,8 +83,8 @@ export const loginDoctor = async (req, res, next) => {
       token,
       doctor: {
         doctorId: doctor._id,
-        first_name: doctor.first_name,
-        last_name: doctor.last_name,
+        firstName: doctor.firstName,
+        lastName: doctor.lastName,
         email: doctor.email,
       },
       expiresIn: "2h",

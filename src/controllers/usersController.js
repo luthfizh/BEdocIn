@@ -21,8 +21,8 @@ export const getCurrentUser = async (req, res, next) => {
     const user = await User.findById(req.user);
     res.json({
       id: user._id,
-      first_name: user.first_name,
-      last_name: user.last_name,
+      firstName: user.firstName,
+      lastName: user.lastName,
       username: user.username,
       email: user.email,
       address: user.address,
@@ -37,8 +37,8 @@ export const createUser = async (req, res, next) => {
     const salt = await bcrypt.genSalt(Number(SALT));
     const encryptedPassword = await bcrypt.hash(req.body.password, salt);
     const user = new User({
-      first_name: req.body.first_name,
-      last_name: req.body.last_name,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
       username: req.body.username,
       email: req.body.email,
       password: encryptedPassword,
@@ -80,8 +80,8 @@ export const loginUser = async (req, res, next) => {
       token,
       user: {
         userId: user._id,
-        first_name: user.first_name,
-        last_name: user.last_name,
+        firstName: user.firstName,
+        lastName: user.lastName,
         email: user.email,
       },
       expiresIn: "2h",

@@ -11,7 +11,7 @@ export const createAppointment = async (req, res, next) => {
       subject: req.body.subject,
       explanation: req.body.explanation,
       time: req.body.time,
-      appointment_fee: req.body.app_fee,
+      appointmentFee: req.body.appointmentFee,
     });
     const result = await appointment.save();
     res.status(201).send({ message: "Appointment successfully created!" });

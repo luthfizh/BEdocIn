@@ -39,7 +39,7 @@ const appointmentSchema = new mongoose.Schema({
     type: String,
     default: "pending",
   },
-  appointment_fee: {
+  appointmentFee: {
     type: Number,
     default: 0,
   },

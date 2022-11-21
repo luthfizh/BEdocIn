@@ -10,14 +10,20 @@ const SALT = getenv("SALT");
 export const createDoctor = async (req, res, next) => {
   try {
     const salt = await bcrypt.genSalt(Number(SALT));
-    const encryptedPassword = await bcrypt.hash(req.body.password, salt);
+    const encryptedPassword = bcrypt.hashSync(
+      req.body.password,
+      salt,
+      (err, hash) => {
+        console.log(err);
+      }
+    );
     const doctor = new Doctor({
       name: req.body.name,
       email: req.body.email,
       speciality: req.body.speciality,
       bio: req.body.bio,
       address: req.body.address,
-      appointment_fee: req.body.appointment_fee,
+      appointmentFee: req.body.appointmentFee,
       password: encryptedPassword,
     });
     const result = await doctor.save();
@@ -53,7 +59,7 @@ export const getCurrentDoctor = async (req, res, next) => {
       speciality: doctor.speciality,
       bio: doctor.bio,
       address: doctor.address,
-      appointment_fee: doctor.appointment_fee,
+      appointmentFee: doctor.appointmentFee,
     });
   } catch (err) {
     next(err);
@@ -78,14 +84,28 @@ export const loginDoctor = async (req, res, next) => {
         .json({ errors: "Invalid credentials!", error_type: "password" });
     }
 
-    const token = jwt.sign({ id: doctor._id, email: doctor.email }, JWT_SECRET);
+    const token = jwt.sign(
+      {
+        id: doctor._id,
+        name: doctor.name,
+        email: doctor.email,
+        speciality: doctor.speciality,
+        bio: doctor.bio,
+        address: doctor.address,
+        appointmentFee: doctor.appointmentFee,
+      },
+      JWT_SECRET
+    );
     res.json({
       token,
       doctor: {
-        doctorId: doctor._id,
-        firstName: doctor.firstName,
-        lastName: doctor.lastName,
+        id: doctor._id,
+        name: doctor.name,
         email: doctor.email,
+        speciality: doctor.speciality,
+        bio: doctor.bio,
+        address: doctor.address,
+        appointmentFee: doctor.appointmentFee,
       },
       expiresIn: "2h",
     });

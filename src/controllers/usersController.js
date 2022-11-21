@@ -35,9 +35,13 @@ export const getCurrentUser = async (req, res, next) => {
 export const createUser = async (req, res, next) => {
   try {
     const salt = await bcrypt.genSalt(Number(SALT));
-    const encryptedPassword = bcrypt.hashSync(req.body.password, salt, (err, hash) =>{
-      console.log(err);
-    });
+    const encryptedPassword = bcrypt.hashSync(
+      req.body.password,
+      salt,
+      (err, hash) => {
+        console.log(err);
+      }
+    );
     const user = new User({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
@@ -77,14 +81,26 @@ export const loginUser = async (req, res, next) => {
         .json({ errors: "Invalid credentials!", error_type: "password" });
     }
 
-    const token = jwt.sign({ id: user._id, email: user.email }, JWT_SECRET);
+    const token = jwt.sign(
+      {
+        id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        username: user.username,
+        email: user.email,
+        address: user.address,
+      },
+      JWT_SECRET
+    );
     res.json({
       token,
       user: {
-        userId: user._id,
+        id: user._id,
         firstName: user.firstName,
         lastName: user.lastName,
+        username: user.username,
         email: user.email,
+        address: user.address,
       },
       expiresIn: "2h",
     });

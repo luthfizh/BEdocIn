@@ -97,7 +97,7 @@ export const loginDoctor = async (req, res, next) => {
       JWT_SECRET
     );
     res.json({
-      token,
+      data: { token },
       doctor: {
         id: doctor._id,
         name: doctor.name,

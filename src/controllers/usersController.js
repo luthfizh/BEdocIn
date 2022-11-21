@@ -93,7 +93,7 @@ export const loginUser = async (req, res, next) => {
       JWT_SECRET
     );
     res.json({
-      token,
+      data: { token },
       user: {
         id: user._id,
         firstName: user.firstName,

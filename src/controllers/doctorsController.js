@@ -86,28 +86,21 @@ export const loginDoctor = async (req, res, next) => {
 
     const token = jwt.sign(
       {
-        id: doctor._id,
-        name: doctor.name,
-        email: doctor.email,
-        speciality: doctor.speciality,
-        bio: doctor.bio,
-        address: doctor.address,
-        appointmentFee: doctor.appointmentFee,
+        doctor: {
+          id: doctor._id,
+          name: doctor.name,
+          email: doctor.email,
+          speciality: doctor.speciality,
+          bio: doctor.bio,
+          address: doctor.address,
+          appointmentFee: doctor.appointmentFee,
+          role: doctor.role,
+        },
       },
       JWT_SECRET
     );
-    res.json({
+    res.status(200).json({
       data: { token },
-      doctor: {
-        id: doctor._id,
-        name: doctor.name,
-        email: doctor.email,
-        speciality: doctor.speciality,
-        bio: doctor.bio,
-        address: doctor.address,
-        appointmentFee: doctor.appointmentFee,
-      },
-      expiresIn: "2h",
     });
   } catch (err) {
     next(err);

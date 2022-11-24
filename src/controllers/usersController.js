@@ -83,26 +83,20 @@ export const loginUser = async (req, res, next) => {
 
     const token = jwt.sign(
       {
-        id: user._id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        username: user.username,
-        email: user.email,
-        address: user.address,
+        user: {
+          id: user._id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          username: user.username,
+          email: user.email,
+          address: user.address,
+          role: user.role,
+        },
       },
       JWT_SECRET
     );
-    res.json({
+    res.status(200).json({
       data: { token },
-      user: {
-        id: user._id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        username: user.username,
-        email: user.email,
-        address: user.address,
-      },
-      expiresIn: "2h",
     });
   } catch (err) {
     next(err);

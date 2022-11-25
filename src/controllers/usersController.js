@@ -83,7 +83,6 @@ export const loginUser = async (req, res, next) => {
 
     const token = jwt.sign(
       {
-        user: {
           id: user._id,
           firstName: user.firstName,
           lastName: user.lastName,
@@ -91,7 +90,6 @@ export const loginUser = async (req, res, next) => {
           email: user.email,
           address: user.address,
           role: user.role,
-        },
       },
       JWT_SECRET
     );

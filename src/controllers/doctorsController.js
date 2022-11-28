@@ -66,6 +66,23 @@ export const getCurrentDoctor = async (req, res, next) => {
   }
 };
 
+export const getDoctorById = async (req, res, next) => {
+  try {
+    const doctor = await Doctor.findById(req.params.id);
+    res.json({
+      id: doctor._id,
+      name: doctor.name,
+      email: doctor.email,
+      speciality: doctor.speciality,
+      bio: doctor.bio,
+      address: doctor.address,
+      appointmentFee: doctor.appointmentFee,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const loginDoctor = async (req, res, next) => {
   try {
     const { email, password } = req.body;

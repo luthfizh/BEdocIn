@@ -10,11 +10,16 @@ export const createAppointment = async (req, res, next) => {
       receiver_name: req.body.receiver_id,
       subject: req.body.subject,
       explanation: req.body.explanation,
+      date: req.body.date,
       time: req.body.time,
       appointmentFee: req.body.appointmentFee,
     });
     const result = await appointment.save();
-    res.status(201).send({ message: "Appointment successfully created!" });
+    if (result) {
+      res.status(201).send({ message: "Appointment successfully created!" });
+    } else {
+      res.status(404).send({ message: "Appointment cannot be empty!" });
+    }
   } catch (err) {
     if (["CastError", "ValidationError"].includes(err?.name)) {
       next({

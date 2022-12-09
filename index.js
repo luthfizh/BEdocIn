@@ -21,7 +21,6 @@ const MONGO_URI = getenv('MONGO_URI');
 //   next();
 // })
 const cors = require('cors');
-app.use(cors());
 mongoose
   .connect(MONGO_URI)
   .then(() => console.log('Connected to DocIn Database!'))
@@ -34,6 +33,7 @@ mongoose
 // app.use(cors({
 //   origin: "https://fe-doc-in.vercel.app",
 // }));
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

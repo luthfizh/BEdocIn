@@ -36,44 +36,44 @@ const MONGO_URI = getenv('MONGO_URI');
 // }
 
 // module.exports = allowCors(handler)
-module.exports = (req, res) => {
-  //set header first to allow request or origin domain (value can be different)
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, OPTIONS, DELETE');
+// module.exports = (req, res) => {
+//   //set header first to allow request or origin domain (value can be different)
+//   res.setHeader('Access-Control-Allow-Origin', '*');
+//   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+//   res.setHeader('Access-Control-Allow-Credentials', true);
+//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, OPTIONS, DELETE');
 
-//---- other code
+// //---- other code
 
-//Preflight CORS handler
-  if(req.method === 'OPTIONS') {
-      return res.status(200).json(({
-          body: "OK"
-      }))
-  }
+// //Preflight CORS handler
+//   if(req.method === 'OPTIONS') {
+//       return res.status(200).json(({
+//           body: "OK"
+//       }))
+//   }
 
-}
+// }
 
-exports.handler = function(event, context, callback) {
+// exports.handler = function(event, context, callback) {
 
-  //---- other code
+//   //---- other code
   
-   //Allow CORS in header
-  const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE'
-  };
+//    //Allow CORS in header
+//   const headers = {
+//     'Access-Control-Allow-Origin': '*',
+//     'Access-Control-Allow-Headers': 'Content-Type',
+//     'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE'
+//   };
   
-     if (event.httpMethod === 'OPTIONS') {
-        // To enable CORS
-        return {
-         statusCode: 200, 
-         headers,
-         body: 'success'
-       };
-   }
-  }
+//      if (event.httpMethod === 'OPTIONS') {
+//         // To enable CORS
+//         return {
+//          statusCode: 200, 
+//          headers,
+//          body: 'success'
+//        };
+//    }
+//   }
 
 mongoose
   .connect(MONGO_URI)

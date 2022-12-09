@@ -14,13 +14,14 @@ const PORT = getenv('PORT');
 const MONGO_URI = getenv('MONGO_URI');
 // const cors = require('cors');
 
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Method', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  next();
-})
-
+// app.use((req, res, next) => {
+//   res.setHeader('Access-Control-Allow-Origin', '*');
+//   res.setHeader('Access-Control-Allow-Method', 'GET, POST, PUT, DELETE, OPTIONS');
+//   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+//   next();
+// })
+const cors = require('cors');
+app.use(cors());
 mongoose
   .connect(MONGO_URI)
   .then(() => console.log('Connected to DocIn Database!'))

@@ -12,7 +12,14 @@ const app = express();
 
 const PORT = getenv('PORT');
 const MONGO_URI = getenv('MONGO_URI');
-const cors = require('cors');
+// const cors = require('cors');
+
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Method', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+})
 
 mongoose
   .connect(MONGO_URI)
@@ -23,9 +30,9 @@ mongoose
     process.exit(1);
   });
 
-app.use(cors({
-  origin: "https://fe-doc-in.vercel.app",
-}));
+// app.use(cors({
+//   origin: "https://fe-doc-in.vercel.app",
+// }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

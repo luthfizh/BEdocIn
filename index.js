@@ -47,6 +47,7 @@ mongoose
   });
 
 app.use(cors());
+app.use(vercel.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

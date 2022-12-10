@@ -74,9 +74,7 @@ export const findAllAppointment = async (req, res, next) => {
 export const findAppointmentById = async (req, res, next) => {
   try {
     const id = mongoose.Types.ObjectId(req.params.id);
-    const response = await Appointment.findById({ _id: id })
-      .populate({ path: "creator_name", select: "-_id firstName lastName" })
-      .populate({ path: "receiver_name", select: "-_id name" });
+    const response = await Appointment.findById({ _id: id });
     res.json({ response });
   } catch (err) {
     next(err);

@@ -18,7 +18,4 @@
 - Clone this project and open it using code editor
 - Set up project with **npm install**
 - Run the program with command **npm start** for production or **npm run dev** for development
-- Open **http://localhost:5000**
-
-### Front-end Code
-**https://github.com/luthfizh/docin-client.git**
+- Open **http://localhost:3000**

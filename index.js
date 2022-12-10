@@ -20,7 +20,6 @@ const MONGO_URI = getenv('MONGO_URI');
 //   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 //   next();
 // })
-const cors = require('cors');
 mongoose
   .connect(MONGO_URI)
   .then(() => console.log('Connected to DocIn Database!'))

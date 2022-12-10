@@ -9,9 +9,12 @@ import appointmentsRouter from './src/routes/appointmentsRoute.js';
 import getenv from './src/helper/getenv.js';
 
 const app = express();
+const cors = require("cors");
 
 const PORT = getenv('PORT');
 const MONGO_URI = getenv('MONGO_URI');
+
+app.use(cors());
 
 mongoose
   .connect(MONGO_URI)
@@ -22,7 +25,6 @@ mongoose
     process.exit(1);
   });
 
-// app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

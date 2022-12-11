@@ -13,6 +13,12 @@ const app = express();
 const PORT = getenv('PORT');
 const MONGO_URI = getenv('MONGO_URI');
 
+var corsOptions = {
+  origin: ["http://localhost:5000", "http://localhost:3000", "https://fe-doc-in.app"],
+  credentials: true,
+  // exposedHeaders: ["set-cookie"]
+}
+
 mongoose
   .connect(MONGO_URI)
   .then(() => console.log('Connected to DocIn Database!'))
@@ -22,12 +28,7 @@ mongoose
     process.exit(1);
   });
 
-app.use(cors());
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*')
-  res.setHeader('Access-Control-Allow-Methods', '*')
-  res.setHeader('Access-Control-Allow-Headers', '*')
-})
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -49,5 +50,3 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}...`));
-
-module.exports = app;

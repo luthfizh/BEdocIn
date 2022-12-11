@@ -9,7 +9,6 @@ import appointmentsRouter from './src/routes/appointmentsRoute.js';
 import getenv from './src/helper/getenv.js';
 
 const app = express();
-const cors = require("cors");
 
 const PORT = getenv('PORT');
 const MONGO_URI = getenv('MONGO_URI');

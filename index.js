@@ -41,12 +41,12 @@ app.use('/users', usersRouter);
 app.use('/doctors', doctorsRouter);
 app.use('/appointments', appointmentsRouter);
 
-app.use((err, req, res, next) => {
-  const statusCode = err.statusCode || 500;
-  console.error(err.message, err.stack);
-  res.status(statusCode).json({ message: err.message });
+// app.use((err, req, res, next) => {
+//   const statusCode = err.statusCode || 500;
+//   console.error(err.message, err.stack);
+//   res.status(statusCode).json({ message: err.message });
 
-  return;
-});
+//   return;
+// });
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}...`));

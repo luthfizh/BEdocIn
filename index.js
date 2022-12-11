@@ -14,8 +14,6 @@ const cors = require("cors");
 const PORT = getenv('PORT');
 const MONGO_URI = getenv('MONGO_URI');
 
-app.use(cors());
-
 mongoose
   .connect(MONGO_URI)
   .then(() => console.log('Connected to DocIn Database!'))
@@ -24,6 +22,13 @@ mongoose
     console.error(err);
     process.exit(1);
   });
+
+app.use(cors());
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  res.setHeader('Access-Control-Allow-Methods', '*')
+  res.setHeader('Access-Control-Allow-Headers', '*')
+})
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

@@ -25,7 +25,7 @@ mongoose
 app.use(cors());
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', 'https://fe-doc-in.vercel.app')
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUTM DELETE, OPTIONS')
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
   res.setHeader('Access-Control-Allow-Headers', '*')
 });
 
